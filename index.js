@@ -41,7 +41,7 @@ io.on('connection', socket => {
       socket.join(room)
       console.log(userId)
 
-      socket.to(room).emit('user-connected', userId)
+      socket.nsp.to(room).emit('user-connected', userId)
 
       // console.log(socket.id)
       // socket.emit("waiting")
