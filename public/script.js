@@ -1,9 +1,9 @@
-// const socket = io('https://videochat-ak.herokuapp.com/')
+const socket = io('https://videochat-ak.herokuapp.com/')
 
-const options = {
-  transports: ['websocket'],
-};
-const socket = io('localhost:3000/', options);
+// const options = {
+//   transports: ['websocket'],
+// };
+// const socket = io('localhost:3000/', options);
 const videoGrid = document.getElementById('video-grid')
 
 const myPeer = new Peer(undefined, {
