@@ -39,7 +39,7 @@ io.on('connection', socket => {
 
       socket.Room=room
       socket.join(room)
-      socket.nsp.to(room).emit('user-connected', userId)
+      socket.to(room).emit('user-connected', userId)
 
       // console.log(socket.id)
       // socket.emit("waiting")
@@ -52,7 +52,7 @@ io.on('connection', socket => {
 
    index++
   //  socket.nsp.to(room).emit("start",room)
-  socket.nsp.to(room).emit('user-connected', userId)
+  socket.to(room).emit('user-connected', userId)
    
    }else{
    }

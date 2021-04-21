@@ -1,9 +1,12 @@
-const socket = io('https://videochat-ak.herokuapp.com/')
 
-// const options = {
-//   transports: ['websocket'],
-// };
-// const socket = io('localhost:3000/', options);
+'use strict'
+
+// const socket = io('https://videochat-ak.herokuapp.com/')
+const options = {
+  transports: ['websocket'],
+};
+const socket = io('localhost:3000/', options); // emmit connection event to server
+
 const videoGrid = document.getElementById('video-grid')
 
 const myPeer = new Peer(undefined, {
@@ -11,8 +14,7 @@ port: '443',
 secure: true,
 // proxied: true
 })
-
-const myVideo = document.createElement('video')
+const myVideo = document.getElementById('video1')
 myVideo.muted = true
 const peers = {}
 navigator.mediaDevices.getUserMedia({
@@ -27,17 +29,14 @@ faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
   faceapi.nets.faceExpressionNet.loadFromUri('/models')
 //--
   myPeer.on('call', call => {
-    console.log("call User");
-
     call.answer(stream)
-    const video = document.createElement('video')
+    const video = document.getElementById('video2')
     call.on('stream', userVideoStream => {
-      // console.log(userVideoStream);
       addVideoStream(video, userVideoStream)
     })
   })
-  const video = document.getElementById(`video1`)
-  // console.log(video)
+  const video = document.getElementById('video1')
+  console.log(video)
 //---------------------------------------------------------
 video.addEventListener('play', () => {
   const canvas = faceapi.createCanvasFromMedia(video)
@@ -61,7 +60,7 @@ video.addEventListener('play', () => {
  //  console.log(faceapi,"//////////")
  //  console.log(faceapi.draw.drawFaceExpressions)
 if(detections.length>0){
-   if(detections[0].expressions.happy>0.72){
+   if(detections[0].expressions.happy>0.75){
     //  console.log(detections[0].expressions)
     let h3 = document.createElement('h1')
 h3.textContent="loseeeeeeeeeeeeeee"
@@ -73,16 +72,15 @@ h3.textContent="loseeeeeeeeeeeeeee"
   }
   // console.log(detections)
   //  if(faceapi.FACE_EXPRESSION_LABELS=="happy"){
-  //    console.log("happy")
-  //  }
-}, 100)
+    //    console.log("happy")
+    //  }
+  }, 100)
 })
 //-----------------------------------------------------------------------
 
-  socket.on('user-connected', userId => {
-  //  console.log(num,"---------");
-    connectToNewUser(userId, stream)
-  })
+socket.on('user-connected', userId => {
+  connectToNewUser(userId, stream)
+})
 })
 
 socket.on('user-disconnected', userId => {
@@ -91,16 +89,16 @@ socket.on('user-disconnected', userId => {
 })
 
 myPeer.on('open', id => {
-  // console.log(id,"-------")
   socket.emit('join-room', ROOM_ID, id)
 })
 
 function connectToNewUser(userId, stream) {
- console.log("new User");
+ 
   const call = myPeer.call(userId, stream)
-  const video = document.createElement('video')
+  const video = document.getElementById('video2')
   call.on('stream', userVideoStream => {
     addVideoStream(video, userVideoStream)
+  console.log(userVideoStream)
   })
   call.on('close', () => {
     video.remove()
@@ -109,29 +107,22 @@ function connectToNewUser(userId, stream) {
   peers[userId] = call
 }
 let count=0;
-
 function addVideoStream(video, stream) {
-  count++
+//  if($("#video2")){
+//     console.log("ss")
+//     $("#video2").remove()
+//   }
+  // if(count==2){
 
+  // }else{
+    count++
+  // }
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
-  // let x=$(video).attr('id')
-  // console.log(x);
-
   video.setAttribute("id", `video${count}`);
-
-  videoGrid.append(video)
-  
-  // videoGrid.append(video)
-    // $(video).on("click",()=>{
-    //   console.log("clicked");
-    // })
-    // if($(video).id()="1"){
-    //   console.log("1");
-    // }
-
+    // videoGrid.append(video)
 }
 
-// console.log("eee")  
+    // console.log("eee")  
