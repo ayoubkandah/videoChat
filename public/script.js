@@ -51,7 +51,8 @@ video.addEventListener('play', () => {
  //  console.log(faceapi,"//////////")
  //  console.log(faceapi.draw.drawFaceExpressions)
 if(detections.length>0){
-   if(detections[0].expressions.happy>0.2){
+   if(detections[0].expressions.happy>0.75){
+    //  console.log(detections[0].expressions)
     let h3 = document.createElement('h1')
 h3.textContent="loseeeeeeeeeeeeeee"
     videoGrid.append(h3)
