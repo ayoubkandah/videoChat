@@ -55,7 +55,7 @@ io.on('connection', socket => {
    index++
    console.log(userId)
   //  socket.nsp.to(room).emit("start",room)
-  socket.to(room).emit('user-connected', userId)
+  socket.nsp.to(room).emit('user-connected', userId)
    
    }else{
    }
