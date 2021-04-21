@@ -55,10 +55,10 @@ if(detections.length>0){
     let h3 = document.createElement('h1')
 h3.textContent="loseeeeeeeeeeeeeee"
     videoGrid.append(h3)
-    console.log("Happy");
+    // console.log("Happy");
    }
   }else if(detections.length<=0){
-    console.log("look to the camera");
+    // console.log("look to the camera");
   }
   // console.log(detections)
   //  if(faceapi.FACE_EXPRESSION_LABELS=="happy"){
