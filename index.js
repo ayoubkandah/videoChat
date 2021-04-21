@@ -4,7 +4,7 @@ const express = require('express')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
-
+app.use(require("cors")())
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 let client=0;
@@ -39,6 +39,8 @@ io.on('connection', socket => {
 
       socket.Room=room
       socket.join(room)
+      console.log(userId)
+
       socket.to(room).emit('user-connected', userId)
 
       // console.log(socket.id)
@@ -51,6 +53,7 @@ io.on('connection', socket => {
       socket.join(room)
 
    index++
+   console.log(userId)
   //  socket.nsp.to(room).emit("start",room)
   socket.to(room).emit('user-connected', userId)
    
