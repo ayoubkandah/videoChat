@@ -1,20 +1,11 @@
-
-'use strict'
-
 const socket = io('https://videochat-ak.herokuapp.com/')
-// const options = {
-//   transports: ['websocket'],
-// };
-// const socket = io('localhost:3000/', options); // emmit connection event to server
-
 const videoGrid = document.getElementById('video-grid')
-
 const myPeer = new Peer(undefined, {
 port: '443',
 secure: true,
-proxied: true
+// proxied: true
 })
-const myVideo = document.getElementById('video1')
+const myVideo = document.createElement('video')
 myVideo.muted = true
 const peers = {}
 navigator.mediaDevices.getUserMedia({
@@ -30,7 +21,7 @@ faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
 //--
   myPeer.on('call', call => {
     call.answer(stream)
-    const video = document.getElementById('video2')
+    const video = document.createElement('video')
     call.on('stream', userVideoStream => {
       addVideoStream(video, userVideoStream)
     })
@@ -72,20 +63,19 @@ h3.textContent="loseeeeeeeeeeeeeee"
   }
   // console.log(detections)
   //  if(faceapi.FACE_EXPRESSION_LABELS=="happy"){
-    //    console.log("happy")
-    //  }
-  }, 100)
+  //    console.log("happy")
+  //  }
+}, 100)
 })
 //-----------------------------------------------------------------------
 
-socket.on('user-connected', userId => {
-  connectToNewUser(userId, stream)
-})
+  socket.on('user-connected', userId => {
+    connectToNewUser(userId, stream)
+  })
 })
 
 socket.on('user-disconnected', userId => {
   if (peers[userId]) peers[userId].close()
-  window.location.href = "./playerDisc/id";
 })
 
 myPeer.on('open', id => {
@@ -93,12 +83,10 @@ myPeer.on('open', id => {
 })
 
 function connectToNewUser(userId, stream) {
- 
   const call = myPeer.call(userId, stream)
-  const video = document.getElementById('video2')
+  const video = document.createElement('video')
   call.on('stream', userVideoStream => {
     addVideoStream(video, userVideoStream)
-  console.log(userVideoStream)
   })
   call.on('close', () => {
     video.remove()
@@ -108,21 +96,13 @@ function connectToNewUser(userId, stream) {
 }
 let count=0;
 function addVideoStream(video, stream) {
-//  if($("#video2")){
-//     console.log("ss")
-//     $("#video2").remove()
-//   }
-  // if(count==2){
-
-  // }else{
-    count++
-  // }
+  count++
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
   video.setAttribute("id", `video${count}`);
-    // videoGrid.append(video)
+    videoGrid.append(video)
 }
 
-    // console.log("eee")  
+console.log("eee")
