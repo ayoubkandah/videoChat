@@ -1,4 +1,4 @@
-const socket = io('https://remo2021.herokuapp.com/')
+const socket = io('https://videochat-ak.herokuapp.com/')
 const videoGrid = document.getElementById('video-grid')
 const myPeer = new Peer(undefined, {
 port: '443',
@@ -51,7 +51,7 @@ video.addEventListener('play', () => {
  //  console.log(faceapi,"//////////")
  //  console.log(faceapi.draw.drawFaceExpressions)
 if(detections.length>0){
-   if(detections[0].expressions.happy>0.1){
+   if(detections[0].expressions.happy>0.2){
     let h3 = document.createElement('h1')
 h3.textContent="loseeeeeeeeeeeeeee"
     videoGrid.append(h3)
