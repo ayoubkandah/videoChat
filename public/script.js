@@ -12,7 +12,7 @@ secure: true,
 // proxied: true
 })
 
-const myVideo = document.createElement('video')
+const myVideo = document.getElementById('video1')
 myVideo.muted = true
 const peers = {}
 navigator.mediaDevices.getUserMedia({
@@ -28,7 +28,7 @@ faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
 //--
   myPeer.on('call', call => {
     call.answer(stream)
-    const video = document.createElement('video')
+    const video = document.getElementById('video1')
     call.on('stream', userVideoStream => {
       console.log(userVideoStream);
       addVideoStream(video, userVideoStream)
@@ -94,7 +94,7 @@ myPeer.on('open', id => {
 
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream)
-  const video = document.createElement('video')
+  const video = document.getElementById('video2')
   call.on('stream', userVideoStream => {
     addVideoStream(video, userVideoStream)
   })
@@ -104,7 +104,7 @@ function connectToNewUser(userId, stream) {
 
   peers[userId] = call
 }
-let count=0;
+let count=1;
 
 function addVideoStream(video, stream) {
   count++
@@ -113,15 +113,17 @@ function addVideoStream(video, stream) {
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
-  video.setAttribute("id", `video${count}`);
+  // let x=$(video).attr('id')
+  // console.log(x);
 
-  videoGrid.append(video)
-    // videoGrid.append(video)
+  // video.setAttribute("id", `video${count}`);
+
+  // videoGrid.append(video)
+  
+  // videoGrid.append(video)
     // $(video).on("click",()=>{
     //   console.log("clicked");
     // })
-    // let x=$(video).attr('id')
-    // console.log(x);
     // if($(video).id()="1"){
     //   console.log("1");
     // }
