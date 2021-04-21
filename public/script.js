@@ -12,7 +12,7 @@ secure: true,
 // proxied: true
 })
 
-const myVideo = document.getElementById('video1')
+const myVideo = document.createElement('video')
 myVideo.muted = true
 const peers = {}
 navigator.mediaDevices.getUserMedia({
@@ -108,10 +108,10 @@ function connectToNewUser(userId, stream) {
 
   peers[userId] = call
 }
-// let count=0;
+let count=0;
 
 function addVideoStream(video, stream) {
-  // count++
+  count++
 
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
@@ -120,7 +120,7 @@ function addVideoStream(video, stream) {
   // let x=$(video).attr('id')
   // console.log(x);
 
-  // video.setAttribute("id", `video${count}`);
+  video.setAttribute("id", `video${count}`);
 
   videoGrid.append(video)
   
