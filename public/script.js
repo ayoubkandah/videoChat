@@ -1,11 +1,11 @@
 
 'use strict'
 
-const socket = io('https://videochat-ak.herokuapp.com/')
-// const options = {
-//   transports: ['websocket'],
-// };
-// const socket = io('localhost:3000/', options); // emmit connection event to server
+// const socket = io('https://videochat-ak.herokuapp.com/')
+const options = {
+  transports: ['websocket'],
+};
+const socket = io('localhost:3000/', options); // emmit connection event to server
 
 const videoGrid = document.getElementById('video-grid')
 

@@ -1,5 +1,5 @@
 const port = process.env.PORT || 3000;
-const { render } = require('ejs');
+// const { render } = require('ejs');
 const express = require('express')
 const app = express()
 const server = require('http').Server(app)
@@ -19,8 +19,13 @@ app.get("/playerDisc/:id",(req,res)=>{
 res.render("playerDisc.ejs")
 })
 
-app.get('/pvp/:id', (req, res) => {
-  res.render('pvp', { roomId: req.params.id })
+app.get('/pvp/', (req, res) => {
+  res.render('pvp.ejs', { roomId: "req.params.room" })
+})
+app.get("/s/:e",(req,res)=>{
+  console.log(req.params.e)
+
+
 })
 
 io.on('connection', socket => {
@@ -38,10 +43,10 @@ io.on('connection', socket => {
       // console.log(room,"roooooom")
 
       socket.Room=room
-      socket.join(roomId)
-      console.log(userId)
+      socket.join(room)
+      console.log(room,"player 1")
 
-      socket.to(roomId).emit('user-connected', userId)
+      socket.to(room).emit('user-connected', userId)
 
       // console.log(socket.id)
       // socket.emit("waiting")
@@ -50,12 +55,13 @@ io.on('connection', socket => {
       console.log(rooms[index])
       socket.Room=room
 
-      socket.join(roomId)
+      socket.join(room)
+      console.log(room,"player 2")
 
    index++
    console.log(userId)
   //  socket.nsp.to(room).emit("start",room)
-  socket.to(roomId).emit('user-connected', userId)
+  socket.to(room).emit('user-connected', userId)
    
    }else{
    }
