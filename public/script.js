@@ -1,10 +1,17 @@
-const socket = io('https://videochat-ak.herokuapp.com/')
+// const socket = io('https://videochat-ak.herokuapp.com/')
+
+const options = {
+  transports: ['websocket'],
+};
+const socket = io('localhost:3000/', options);
 const videoGrid = document.getElementById('video-grid')
+
 const myPeer = new Peer(undefined, {
 port: '443',
 secure: true,
 // proxied: true
 })
+
 const myVideo = document.createElement('video')
 myVideo.muted = true
 const peers = {}
@@ -23,11 +30,12 @@ faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
     call.answer(stream)
     const video = document.createElement('video')
     call.on('stream', userVideoStream => {
+      console.log(userVideoStream);
       addVideoStream(video, userVideoStream)
     })
   })
-  const video = document.getElementById('video1')
-  console.log(video)
+  const video = document.getElementById(`video1`)
+  // console.log(video)
 //---------------------------------------------------------
 video.addEventListener('play', () => {
   const canvas = faceapi.createCanvasFromMedia(video)
@@ -51,7 +59,7 @@ video.addEventListener('play', () => {
  //  console.log(faceapi,"//////////")
  //  console.log(faceapi.draw.drawFaceExpressions)
 if(detections.length>0){
-   if(detections[0].expressions.happy>0.75){
+   if(detections[0].expressions.happy>0.72){
     //  console.log(detections[0].expressions)
     let h3 = document.createElement('h1')
 h3.textContent="loseeeeeeeeeeeeeee"
@@ -76,9 +84,11 @@ h3.textContent="loseeeeeeeeeeeeeee"
 
 socket.on('user-disconnected', userId => {
   if (peers[userId]) peers[userId].close()
+  window.location.href = "./playerDisc/id";
 })
 
 myPeer.on('open', id => {
+  // console.log(id,"-------")
   socket.emit('join-room', ROOM_ID, id)
 })
 
@@ -95,14 +105,27 @@ function connectToNewUser(userId, stream) {
   peers[userId] = call
 }
 let count=0;
+
 function addVideoStream(video, stream) {
   count++
+
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
   video.setAttribute("id", `video${count}`);
-    videoGrid.append(video)
+
+  videoGrid.append(video)
+    // videoGrid.append(video)
+    // $(video).on("click",()=>{
+    //   console.log("clicked");
+    // })
+    // let x=$(video).attr('id')
+    // console.log(x);
+    // if($(video).id()="1"){
+    //   console.log("1");
+    // }
+
 }
 
-console.log("eee")
+// console.log("eee")  
