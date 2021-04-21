@@ -7,7 +7,7 @@ const socket = io('https://videochat-ak.herokuapp.com/')
 const videoGrid = document.getElementById('video-grid')
 
 const myPeer = new Peer(undefined, {
-port: '443',
+port: '80',
 secure: true,
 // proxied: true
 })
