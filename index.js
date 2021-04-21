@@ -10,7 +10,7 @@ app.use(express.static('public'))
 let client=0;
  let rooms=[]
  let index=0;
- let room
+ let room=0;
 // app.get('/pvp', (req, res) => {
 //   res.redirect(`/pvp`)
 // })
@@ -19,8 +19,8 @@ app.get("/playerDisc/:id",(req,res)=>{
 res.render("playerDisc.ejs")
 })
 
-app.get('/pvp', (req, res) => {
-  res.render('pvp', { roomId: "--!!" })
+app.get('/pvp/:id', (req, res) => {
+  res.render('pvp', { roomId: req.params.id })
 })
 
 io.on('connection', socket => {
@@ -38,10 +38,10 @@ io.on('connection', socket => {
       // console.log(room,"roooooom")
 
       socket.Room=room
-      socket.join(room)
+      socket.join(roomId)
       console.log(userId)
 
-      socket.to(room).emit('user-connected', userId)
+      socket.to(roomId).emit('user-connected', userId)
 
       // console.log(socket.id)
       // socket.emit("waiting")
@@ -50,12 +50,12 @@ io.on('connection', socket => {
       console.log(rooms[index])
       socket.Room=room
 
-      socket.join(room)
+      socket.join(roomId)
 
    index++
    console.log(userId)
   //  socket.nsp.to(room).emit("start",room)
-  socket.to(room).emit('user-connected', userId)
+  socket.to(roomId).emit('user-connected', userId)
    
    }else{
    }
