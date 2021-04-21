@@ -29,15 +29,33 @@ const ROOM_ID = "<%= roomId %>"
       width: 320px;
       height: 248.8888888888889px;
       object-fit: cover;
+      border: 3px solid black;
+      margin-right: 50px;
+      margin-top: 15px;
+      margin-left: 30px;
+    }
+    p{
+      display: inline-block;
+      /* padding-bottom: 50px; */
     }
   </style>
 </head>
 <body>
   <!-- <video id="EE" src=""></video> -->
-      <video id="video1"  ></video>
+      <video id="video1" autoplay ></video>
+<p id="player1">player1</p>
+      <p>VS</p>
+<p id="player2">waiting</p>
+  <video id="video2" autoplay ></video>
 
-  <video id="video2"  ></video>
+  <div id="gamePlay">
+<p id="timer">Timer</p>
+<p id="timerN"></p>
 
+<p id="player1P"></p>
+<p id="player2P"></p>
+
+  </div>
   <div id="video-grid">
 
   </div>

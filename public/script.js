@@ -27,10 +27,11 @@ faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
   faceapi.nets.faceExpressionNet.loadFromUri('/models')
 //--
   myPeer.on('call', call => {
+
     call.answer(stream)
-    const video = document.getElementById('video1')
+    const video = document.getElementById('video2')
     call.on('stream', userVideoStream => {
-      console.log(userVideoStream);
+      // console.log(userVideoStream);
       addVideoStream(video, userVideoStream)
     })
   })
@@ -78,6 +79,7 @@ h3.textContent="loseeeeeeeeeeeeeee"
 //-----------------------------------------------------------------------
 
   socket.on('user-connected', userId => {
+  //  console.log(num,"---------");
     connectToNewUser(userId, stream)
   })
 })
@@ -104,10 +106,10 @@ function connectToNewUser(userId, stream) {
 
   peers[userId] = call
 }
-let count=1;
+// let count=0;
 
 function addVideoStream(video, stream) {
-  count++
+  // count++
 
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
