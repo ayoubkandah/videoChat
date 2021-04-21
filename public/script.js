@@ -27,9 +27,10 @@ faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
   faceapi.nets.faceExpressionNet.loadFromUri('/models')
 //--
   myPeer.on('call', call => {
+    console.log("call User");
 
     call.answer(stream)
-    const video = document.getElementById('video2')
+    const video = document.createElement('video')
     call.on('stream', userVideoStream => {
       // console.log(userVideoStream);
       addVideoStream(video, userVideoStream)
@@ -95,8 +96,9 @@ myPeer.on('open', id => {
 })
 
 function connectToNewUser(userId, stream) {
+ console.log("new User");
   const call = myPeer.call(userId, stream)
-  const video = document.getElementById('video2')
+  const video = document.createElement('video')
   call.on('stream', userVideoStream => {
     addVideoStream(video, userVideoStream)
   })
@@ -120,7 +122,7 @@ function addVideoStream(video, stream) {
 
   // video.setAttribute("id", `video${count}`);
 
-  // videoGrid.append(video)
+  videoGrid.append(video)
   
   // videoGrid.append(video)
     // $(video).on("click",()=>{
