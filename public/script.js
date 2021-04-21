@@ -121,7 +121,7 @@ function addVideoStream(video, stream) {
   video.addEventListener('loadedmetadata', () => {
     video.play()
   })
-  video.setAttribute("id", `video${count}`);
+  // video.setAttribute("id", `video${count}`);
     // videoGrid.append(video)
 }
 
