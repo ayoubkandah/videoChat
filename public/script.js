@@ -112,7 +112,7 @@ function connectToNewUser(userId, stream) {
 
 function addVideoStream(video, stream) {
   // count++
-
+let divv=document.getElementById("vid")
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play()
@@ -122,7 +122,7 @@ function addVideoStream(video, stream) {
 
   // video.setAttribute("id", `video${count}`);
 
-  videoGrid.append(video)
+  divv.append(video)
   
   // videoGrid.append(video)
     // $(video).on("click",()=>{
