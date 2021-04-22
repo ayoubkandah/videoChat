@@ -1,18 +1,21 @@
 
 'use strict'
 
-const socket = io('https://videochat-ak.herokuapp.com/')
-// const options = {
-//   transports: ['websocket'],
-// };
-// const socket = io('localhost:3000/', options); // emmit connection event to server
-
+// const socket = io('https://videochat-ak.herokuapp.com/')
+const options = {
+  transports: ['websocket'],
+};
+const socket = io('localhost:3000/', options); // emmit connection event to server
+let video2=document.getElementById("video2")
+let video1=document.getElementById("video1")
 const videoGrid = document.getElementById('video-grid')
 
 const myPeer = new Peer()
 const myVideo = document.getElementById('video1')
 myVideo.muted = true
 const peers = {}
+let player=1
+let userID;
 navigator.mediaDevices.getUserMedia({
   video: true,
   audio: true
@@ -73,9 +76,37 @@ h3.textContent="loseeeeeeeeeeeeeee"
   }, 100)
 })
 //-----------------------------------------------------------------------
+socket.on("player2",val=>{
+  player=val
+  console.log(player);
 
+  // console.log(userID);
+  // socket.emit("startV",ROOM_ID,userID)
+})
 socket.on('user-connected', userId => {
+  console.log(video2.srcObject)
+// console.log(video1.srcObject)
+// connectToNewUser(userId, stream)
+console.log(player);
+ connectToNewUser(userId, stream)
+
+    
+console.log("---")
+if(video2.srcObject==null){
   connectToNewUser(userId, stream)
+}
+if(video2.srcObject==null){
+  connectToNewUser(userId, stream)
+}
+if(video2.srcObject==null){
+  connectToNewUser(userId, stream)
+}
+if(video2.srcObject==null){
+  connectToNewUser(userId, stream)
+}
+if(video2.srcObject==null){
+  connectToNewUser(userId, stream)
+}
 })
 })
 
@@ -85,6 +116,7 @@ socket.on('user-disconnected', userId => {
 })
 
 myPeer.on('open', id => {
+  userID=id
   socket.emit('join-room', ROOM_ID, id)
 })
 
@@ -120,5 +152,6 @@ function addVideoStream(video, stream) {
   // video.setAttribute("id", `video${count}`);
     // videoGrid.append(video)
 }
+
 
     // console.log("eee")  

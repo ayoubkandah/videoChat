@@ -11,6 +11,7 @@ let client=0;
  let rooms=[]
  let index=0;
  let room=0;
+ let userID;
 // app.get('/pvp', (req, res) => {
 //   res.redirect(`/pvp`)
 // })
@@ -44,9 +45,10 @@ io.on('connection', socket => {
 
       socket.Room=room
       socket.join(room)
-      console.log(room,"player 1")
+      console.log(room,"player")
+     
 
-      socket.to(room).emit('user-connected', userId)
+      // socket.to(room).emit('user-connected', userId)
 
       // console.log(socket.id)
       // socket.emit("waiting")
@@ -61,8 +63,10 @@ io.on('connection', socket => {
    index++
    console.log(userId)
   //  socket.nsp.to(room).emit("start",room)
-  socket.nsp.to(room).emit('user-connected', userId)
-   
+  socket.emit('player2', 2)
+  socket.to(room).emit('user-connected', userId)
+  
+
    }else{
    }
    //---
@@ -81,8 +85,13 @@ io.on('connection', socket => {
         }
       // console.log("disc")
       
-      socket.nsp.to(room).emit('user-disconnected', userId)
+      socket.to(room).emit('user-disconnected', userId)
     })
+  })
+  socket.on("startV",(roomId,userId)=>{
+    console.log(userId)
+    socket.to(room).emit('user-connected', userId)
+
   })
 })
 
