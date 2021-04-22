@@ -1,16 +1,16 @@
 
 'use strict'
 
-const socket = io('https://videochat-ak.herokuapp.com/')
-// const options = {
-//   transports: ['websocket'],
-// };
-// const socket = io('localhost:3000/', options); // emmit connection event to server
+// const socket = io('https://videochat-ak.herokuapp.com/')
+const options = {
+  transports: ['websocket'],
+};
+const socket = io('localhost:3000/', options); // emmit connection event to server
 
 const videoGrid = document.getElementById('video-grid')
 
 const myPeer = new Peer(undefined, {
-port: '9000',
+port: '443',
 secure: true,
 // host:'https://videochat-ak.herokuapp.com/pvp',
 
