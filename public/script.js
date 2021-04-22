@@ -10,9 +10,9 @@ const socket = io('https://videochat-ak.herokuapp.com/')
 const videoGrid = document.getElementById('video-grid')
 
 const myPeer = new Peer(undefined, {
-port: '443',
+port: '9000',
 secure: true,
-host:'https://videochat-ak.herokuapp.com/pvp',
+// host:'https://videochat-ak.herokuapp.com/pvp',
 
 })
 const myVideo = document.getElementById('video1')
