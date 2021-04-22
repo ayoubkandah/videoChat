@@ -92,9 +92,14 @@ console.log(player);
 
     
 console.log("---")
-if(video2.srcObject==null){
-socket.emit("startV",ROOM_ID,userId)
-}
+  setTimeout(function(){
+  console.log("done 10sec")
+  if(video2.srcObject==null){
+  
+  socket.emit("startV",ROOM_ID,userId)
+  }  
+  }, 10000);
+
 })
 })
 
