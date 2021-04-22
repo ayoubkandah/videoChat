@@ -90,7 +90,7 @@ io.on('connection', socket => {
   })
   socket.on("startV",(roomId,userId)=>{
     console.log(userId)
-    socke.nsp.in(room).emit('user-connected', userId)
+    socke.nsp.to(room).emit('user-connected', userId)
 
   })
 })
