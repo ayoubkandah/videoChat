@@ -93,19 +93,7 @@ console.log(player);
     
 console.log("---")
 if(video2.srcObject==null){
-  connectToNewUser(userId, stream)
-}
-if(video2.srcObject==null){
-  connectToNewUser(userId, stream)
-}
-if(video2.srcObject==null){
-  connectToNewUser(userId, stream)
-}
-if(video2.srcObject==null){
-  connectToNewUser(userId, stream)
-}
-if(video2.srcObject==null){
-  connectToNewUser(userId, stream)
+socket.emit("startV",ROOM_ID,userId)
 }
 })
 })
