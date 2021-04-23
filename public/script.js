@@ -1,11 +1,11 @@
 
 'use strict'
 
-const socket = io('https://videochat-ak.herokuapp.com/')
-// const options = {
-//   transports: ['websocket'],
-// };
-// const socket = io('localhost:3000/', options); // emmit connection event to server
+// const socket = io('https://videochat-ak.herokuapp.com/')
+const options = {
+  transports: ['websocket'],
+};
+const socket = io('localhost:3000/', options); // emmit connection event to server
 let video2 = document.getElementById("video2")
 let video1 = document.getElementById("video1")
 const videoGrid = document.getElementById('video-grid')
@@ -81,7 +81,7 @@ navigator.mediaDevices.getUserMedia({
       
       }
       
-    }, 6000);
+    }, 2000);
     if(video2.srcObject !== null){
    
     socket.emit("startG", roomP)
@@ -89,14 +89,14 @@ navigator.mediaDevices.getUserMedia({
   }
 })
   
-socket.on('user-connected2', (userId, room) => {
-    player=2
+socket.on('user-connected2', (userId) => {
+   
   console.log(video2.srcObject)
   console.log(player)
 
   connectToNewUser(userId, stream)
 
-  roomP = room
+ 
   console.log("---")
   setTimeout(function aa() {
     console.log("done 6sec")
@@ -109,19 +109,19 @@ else{
       socket.emit("startG", roomP)
     
     }
-  }, 6000);
+  }, 2000);
 })
 if(video2.srcObject !== null ){
   socket.emit("startG", roomP)
 
 }
 
-})
+
 
 socket.on("startGaming",roomG=>{
-  if(conBoolen){
+  
   console.log(player);
-
+  if(conBoolen){
 roomP=roomG
 $("#p2").text("Player 2")
 $("#start").show()
@@ -182,6 +182,7 @@ console.log(timeleft)
 socket.on('user-disconnected', userId => {
   if (peers[userId]) peers[userId].close()
   window.location.href = "./playerDisc/id";
+})
 })
 
 myPeer.on('open', id => {

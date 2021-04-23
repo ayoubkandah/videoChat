@@ -23,11 +23,7 @@ app.get("/playerDisc/:id", (req, res) => {
 app.get('/pvp/', (req, res) => {
   res.render('pvp.ejs', { roomId: "req.params.room" })
 })
-app.get("/s/:e", (req, res) => {
-  console.log(req.params.e)
 
-
-})
 
 io.on('connection', socket => {
 
@@ -45,7 +41,7 @@ io.on('connection', socket => {
 
       socket.Room = room
       socket.join(room)
-      // console.log(room,"player")
+      console.log(room,"player")
 
 
       // socket.to(room).emit('user-connected', userId)
@@ -61,7 +57,7 @@ io.on('connection', socket => {
       // console.log(room,"player 2")
 
       index++
-      console.log(userId)
+      // console.log(userId)
       //  socket.nsp.to(room).emit("start",room)
       socket.emit('player2', 2)
       socket.to(room).emit('user-connected', userId, room)
@@ -94,6 +90,7 @@ io.on('connection', socket => {
   })
   socket.on("startG", (roomG) => {
     console.log("Start Game")
+    console.log(roomG)
     socket.nsp.to(roomG).emit("startGaming",roomG)
   })
 
