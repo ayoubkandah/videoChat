@@ -59,7 +59,6 @@ io.on('connection', socket => {
       index++
       // console.log(userId)
       //  socket.nsp.to(room).emit("start",room)
-      socket.emit('player2', 2)
       socket.to(room).emit('user-connected', userId, room)
 
     } else {

@@ -57,11 +57,7 @@ navigator.mediaDevices.getUserMedia({
   //-----------------------------------------------------------------------
   let conBoolen=true
 
-  socket.on("player2", val => {
-    player = 2
-    console.log(player);
-
-  })
+ 
   socket.on('user-connected', (userId, room) => {
     player=2
     console.log(video2.srcObject)
@@ -136,6 +132,11 @@ $("hint").text("Dont laughing")
   }
 
 })
+
+socket.on("yourTurn",()=>{
+  GameStart ()
+
+})
 ///-----------------------Game Play Function \/ \/
 
 function GameStart () {  
@@ -151,8 +152,8 @@ function GameStart () {
     $("#timerN").text(timeleft);
     if(timeleft<=0){
         clearInterval(downloadTimer);
+        $("#turn").text("Opponent turn")
 socket.emit("p2Turn",roomP)
-console.log(timeleft)
 
 // break;
     }
