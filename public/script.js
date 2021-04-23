@@ -61,6 +61,7 @@ if(oppPoints>=3){ ////////////////Player loser
 }else{ //////////////////// player lose 1 point
 $("#turn").text("Opponent turn")
 $("#video2").prop('muted', false)
+$("#point").text("you Lose point")
 trigger=false
 console.log("happy")
 socket.emit("p2TurnL",roomP,oppPoints,yourPoints)
@@ -147,7 +148,7 @@ if(player==1){
   $("#video2").prop('muted', false)
 
   $("#turn").text("Opponent turn")
-$("hint").text("Dont laughing")
+$("#hint").text("Dont laughing")
 }
   }
 
@@ -163,12 +164,13 @@ socket.on("yourTurn",(yourPointss,oppPointss)=>{
 
 })
 socket.on("getPoint",(yourPointss,oppPointss)=>{
+  $("#point").text("you win point")
+
   yourPoints=yourPointss
   oppPoints=oppPointss
   $("#yourP").text(`your Points : ${yourPoints}`)
   $("#oppP").text(`opponent Points : ${oppPoints}`)
-  timeleft=1;
- 
+  timeleft=1; 
 
 })
 
@@ -182,19 +184,23 @@ window.location.href = "./winner/id";
 
 function GameStart () {  
   // $("start").hide()
-trigger=false
+  $("#point").text()
+
+  trigger=false
    timeleft = 13;
   console.log("gamestart")
-  $("hint").text("make you opponent laughing")
+  $("#hint").text("make you opponent laughing")
 
   $("#turn").text("your turn")
  
   let downloadTimer = setInterval(function(){
     $("#timerN").text(timeleft);
     if(timeleft<=0){
+      timeleft=0
         clearInterval(downloadTimer);
         $("#turn").text("Opponent turn")
         $("#video2").prop('muted', false)
+        $("#hint").text("Dont laughing")
         trigger=true
 socket.emit("p2Turn",roomP,oppPoints,yourPoints)
 
