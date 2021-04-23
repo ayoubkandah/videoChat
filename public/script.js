@@ -82,7 +82,7 @@ navigator.mediaDevices.getUserMedia({
       
       }
       
-    }, 1000);
+    }, 6000);
     if(video2.srcObject !== null&&conBoolen){
       conBoolen=false
     socket.emit("startG", roomP)
@@ -111,7 +111,7 @@ else{
       socket.emit("startG", roomP)
     
     }
-  }, 2000);
+  }, 6000);
 })
 if(video2.srcObject !== null &&conBoolen){
   conBoolen=false
