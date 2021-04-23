@@ -58,7 +58,7 @@ navigator.mediaDevices.getUserMedia({
   let conBoolen=true
 
   socket.on("player2", val => {
-    player = val
+    player = 2
     console.log(player);
 
   })
@@ -77,14 +77,13 @@ navigator.mediaDevices.getUserMedia({
         // connectToNewUser(userId, stream)
         socket.emit("startV", ROOM_ID, userId)
       } else{
-  conBoolen=false
         socket.emit("startG", roomP)
       
       }
       
     }, 6000);
-    if(video2.srcObject !== null&&conBoolen){
-      conBoolen=false
+    if(video2.srcObject !== null){
+   
     socket.emit("startG", roomP)
 
   }
@@ -93,7 +92,7 @@ navigator.mediaDevices.getUserMedia({
 socket.on('user-connected2', (userId, room) => {
     player=2
   console.log(video2.srcObject)
-  // console.log(video1.srcObject)
+  console.log(player)
 
   connectToNewUser(userId, stream)
 
@@ -107,14 +106,12 @@ socket.on('user-connected2', (userId, room) => {
     } 
 else{
   
-  conBoolen=false
       socket.emit("startG", roomP)
     
     }
   }, 6000);
 })
-if(video2.srcObject !== null &&conBoolen){
-  conBoolen=false
+if(video2.srcObject !== null ){
   socket.emit("startG", roomP)
 
 }
@@ -122,6 +119,7 @@ if(video2.srcObject !== null &&conBoolen){
 })
 
 socket.on("startGaming",roomG=>{
+  if(conBoolen){
   console.log(player);
 
 roomP=roomG
@@ -134,13 +132,14 @@ if(player==1){
   $("#turn").text("Opponent turn")
 $("hint").text("Dont laughing")
 }
-
+  }
 
 })
 ///-----------------------Game Play Function \/ \/
 
 function GameStart () {  
   // $("start").hide()
+
   let timeleft = 13;
   console.log("gamestart")
   $("hint").text("make you opponent laughing")
