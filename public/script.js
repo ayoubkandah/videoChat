@@ -99,7 +99,7 @@ console.log("---")
   
   socket.emit("startV",ROOM_ID,userId)
   }  
-  }, 15000);
+  }, 6000);
 
 })
 })
