@@ -93,9 +93,13 @@ io.on('connection', socket => {
     socket.nsp.to(roomG).emit("startGaming",roomG)
   })
 
-  socket.on("p2Turn",roomG=>{
-    socket.to(roomG).emit("yourTurn")
+  socket.on("p2Turn",(roomG,yourPoints,oppPoints)=>{
+    socket.to(roomG).emit("yourTurn",yourPoints,oppPoints)
     
+    })
+
+    socket.on("loseP",roomG,yourPoints=>{
+      socket.to(roomG).emit("winP",yourPoints)
     })
 })
 

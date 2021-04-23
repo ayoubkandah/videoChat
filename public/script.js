@@ -19,6 +19,8 @@ let userID;
 let roomP;
 let yourPoints=0;
 let oppPoints=0;
+let timeleft;
+let trigger;
 $("#start").hide()
 navigator.mediaDevices.getUserMedia({
   video: true,
@@ -47,7 +49,15 @@ navigator.mediaDevices.getUserMedia({
     setInterval(async () => {
       const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
       if (detections.length > 0) {
-        if (detections[0].expressions.happy > 0.75) {
+        if (detections[0].expressions.happy > 0.75 && trigger) {
+timeleft=0;
+oppPoints++;
+$("#turn").text("Opponent turn")
+$("#video2").prop('muted', false)
+trigger=true
+console.log("happy")
+socket.emit("p2Turn",roomP,oppPoints,yourPoints)
+
         }
       } else if (detections.length <= 0) {
       }
@@ -135,7 +145,11 @@ $("hint").text("Dont laughing")
 
 })
 
-socket.on("yourTurn",()=>{
+socket.on("yourTurn",(yourPointss,oppPointss)=>{
+  yourPoints=yourPointss
+  oppPoints=oppPointss
+  $("#yourP").text(`your Points : ${yourPoints}`)
+  $("#yourP").text(`opponent Points : ${oppPoints}`)
   $("#video2").prop('muted', true)
   GameStart ()
 
@@ -144,8 +158,8 @@ socket.on("yourTurn",()=>{
 
 function GameStart () {  
   // $("start").hide()
-
-  let timeleft = 13;
+trigger=false
+   timeleft = 13;
   console.log("gamestart")
   $("hint").text("make you opponent laughing")
 
@@ -157,7 +171,8 @@ function GameStart () {
         clearInterval(downloadTimer);
         $("#turn").text("Opponent turn")
         $("#video2").prop('muted', false)
-socket.emit("p2Turn",roomP)
+        trigger=true
+socket.emit("p2Turn",roomP,oppPoints,yourPoints)
 
 // break;
     }
