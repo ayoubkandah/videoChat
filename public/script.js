@@ -1,11 +1,11 @@
 
 'use strict'
 
-const socket = io('https://videochat-ak.herokuapp.com/')
-// const options = {
-//   transports: ['websocket'],
-// };
-// const socket = io('localhost:3000/', options); // emmit connection event to server
+// const socket = io('https://videochat-ak.herokuapp.com/')
+const options = {
+  transports: ['websocket'],
+};
+const socket = io('localhost:3000/', options); // emmit connection event to server
 let video2=document.getElementById("video2")
 let video1=document.getElementById("video1")
 const videoGrid = document.getElementById('video-grid')
@@ -89,6 +89,7 @@ socket.on('user-connected', userId => {
 // connectToNewUser(userId, stream)
 console.log(player);
  connectToNewUser(userId, stream)
+// socket.emit("startV",ROOM_ID,userId)
 
     
 console.log("---")
@@ -97,7 +98,6 @@ console.log("---")
   if(video2.srcObject==null){
   
   socket.emit("startV",ROOM_ID,userId)
-aa()
   }  
   }, 15000);
 
