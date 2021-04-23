@@ -53,7 +53,10 @@ navigator.mediaDevices.getUserMedia({
       }
     }, 100)
   })
+
   //-----------------------------------------------------------------------
+  let conBoolen=true
+
   socket.on("player2", val => {
     player = val
     console.log(player);
@@ -73,18 +76,21 @@ navigator.mediaDevices.getUserMedia({
       if (video2.srcObject == null) {
         // connectToNewUser(userId, stream)
         socket.emit("startV", ROOM_ID, userId)
-      } 
-
+      } else{
+if(conBoolen){
+  conBoolen=false
         socket.emit("startG", roomP)
+      }
+      }
       
     }, 1000);
-    if(video2.srcObject !== null){
+    if(video2.srcObject !== null&&conBoolen){
+      conBoolen=false
     socket.emit("startG", roomP)
 
   }
 })
   
-let conBoolen=true
 socket.on('user-connected2', (userId, room) => {
     player=2
   console.log(video2.srcObject)
@@ -101,9 +107,11 @@ socket.on('user-connected2', (userId, room) => {
       socket.emit("startV", ROOM_ID, userId)
     } 
 else{
+  if(conBoolen){
   conBoolen=false
       socket.emit("startG", roomP)
-}
+    }
+    }
   }, 2000);
 })
 if(video2.srcObject !== null &&conBoolen){
