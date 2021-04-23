@@ -126,6 +126,8 @@ if(player==1){
   
   GameStart()
 }else if(player==2){
+  $("#video2").prop('muted', false)
+
   $("#turn").text("Opponent turn")
 $("hint").text("Dont laughing")
 }
