@@ -23,7 +23,14 @@ app.get("/playerDisc/:id", (req, res) => {
 app.get('/pvp/', (req, res) => {
   res.render('pvp.ejs', { roomId: "req.params.room" })
 })
-
+app.get("/loser/:id", (req, res) => {
+  //--make update and increase value for player id params
+  res.render("loser.ejs")
+})
+app.get("/winner/:id", (req, res) => {
+  //--make update and increase value for player id params
+  res.render("winner.ejs")
+})
 
 io.on('connection', socket => {
 
@@ -98,9 +105,13 @@ io.on('connection', socket => {
     
     })
 
-    socket.on("loseP",roomG,yourPoints=>{
-      socket.to(roomG).emit("winP",yourPoints)
-    })
+socket.on("p2TurnL",(roomP,yourPoints,oppPoints)=>{
+  socket.to(roomP).emit("getPoint",yourPoints,oppPoints)
+})
+
+socket.on("winner",roomG=>{
+  socket.to(roomG).emit("youWin")
+})
 })
 
 

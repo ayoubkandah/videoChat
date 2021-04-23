@@ -1,11 +1,11 @@
 
 'use strict'
 
-const socket = io('https://videochat-ak.herokuapp.com/')
-// const options = {
-//   transports: ['websocket'],
-// };
-// const socket = io('localhost:3000/', options); // emmit connection event to server
+// const socket = io('https://videochat-ak.herokuapp.com/')
+const options = {
+  transports: ['websocket'],
+};
+const socket = io('localhost:3000/', options); // emmit connection event to server
 let video2 = document.getElementById("video2")
 let video1 = document.getElementById("video1")
 const videoGrid = document.getElementById('video-grid')
@@ -21,6 +21,7 @@ let yourPoints=0;
 let oppPoints=0;
 let timeleft;
 let trigger;
+let complete=false;
 $("#start").hide()
 navigator.mediaDevices.getUserMedia({
   video: true,
@@ -50,14 +51,20 @@ navigator.mediaDevices.getUserMedia({
       const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
       if (detections.length > 0) {
         if (detections[0].expressions.happy > 0.75 && trigger) {
-timeleft=0;
 oppPoints++;
+
+if(oppPoints>=3){ ////////////////Player loser
+  complete=true
+  socket.emit("winner",roomP)
+  window.location.href = "./loser/id";
+
+}else{ //////////////////// player lose 1 point
 $("#turn").text("Opponent turn")
 $("#video2").prop('muted', false)
-trigger=true
+trigger=false
 console.log("happy")
-socket.emit("p2Turn",roomP,oppPoints,yourPoints)
-
+socket.emit("p2TurnL",roomP,oppPoints,yourPoints)
+}
         }
       } else if (detections.length <= 0) {
       }
@@ -133,9 +140,10 @@ roomP=roomG
 $("#p2").text("Player 2")
 $("#start").show()
 if(player==1){
-  
+  trigger=false
   GameStart()
 }else if(player==2){
+  trigger=true
   $("#video2").prop('muted', false)
 
   $("#turn").text("Opponent turn")
@@ -149,9 +157,25 @@ socket.on("yourTurn",(yourPointss,oppPointss)=>{
   yourPoints=yourPointss
   oppPoints=oppPointss
   $("#yourP").text(`your Points : ${yourPoints}`)
-  $("#yourP").text(`opponent Points : ${oppPoints}`)
+  $("#oppP").text(`opponent Points : ${oppPoints}`)
   $("#video2").prop('muted', true)
   GameStart ()
+
+})
+socket.on("getPoint",(yourPointss,oppPointss)=>{
+  yourPoints=yourPointss
+  oppPoints=oppPointss
+  $("#yourP").text(`your Points : ${yourPoints}`)
+  $("#oppP").text(`opponent Points : ${oppPoints}`)
+  timeleft=1;
+ 
+
+})
+
+socket.on("youWin",()=>{
+complete=true;
+window.location.href = "./winner/id";
+
 
 })
 ///-----------------------Game Play Function \/ \/
@@ -202,7 +226,9 @@ socket.emit("p2Turn",roomP,oppPoints,yourPoints)
   ///-----------------------Game Play Function ^^^^^
 socket.on('user-disconnected', userId => {
   if (peers[userId]) peers[userId].close()
+  if(!complete){
   window.location.href = "./playerDisc/id";
+}
 })
 })
 
