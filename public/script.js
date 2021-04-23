@@ -76,7 +76,7 @@ navigator.mediaDevices.getUserMedia({
 
         socket.emit("startG", roomP)
       
-    }, 8000);
+    }, 6000);
   })
   if(video2.srcObject !== null){
     socket.emit("startG", roomP)
@@ -84,6 +84,8 @@ navigator.mediaDevices.getUserMedia({
   }
 })
 socket.on("startGaming",roomG=>{
+  console.log(player);
+
 roomP=roomG
 $("#p2").text("Player 2")
 $("#start").show()
@@ -100,10 +102,11 @@ $("hint").text("Dont laughing")
 
 function GameStart () {  
   // $("start").hide()
+  let timeleft = 13;
   $("hint").text("make you opponent laughing")
 
   $("#turn").text("your turn")
-  let timeleft = 13;
+ 
   let downloadTimer = setInterval(function(){
     $("#timerN").text(timeleft);
     if(timeleft<=0){
