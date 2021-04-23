@@ -77,10 +77,9 @@ navigator.mediaDevices.getUserMedia({
         // connectToNewUser(userId, stream)
         socket.emit("startV", ROOM_ID, userId)
       } else{
-if(conBoolen){
   conBoolen=false
         socket.emit("startG", roomP)
-      }
+      
       }
       
     }, 1000);
@@ -107,10 +106,10 @@ socket.on('user-connected2', (userId, room) => {
       socket.emit("startV", ROOM_ID, userId)
     } 
 else{
-  if(conBoolen){
+  
   conBoolen=false
       socket.emit("startG", roomP)
-    }
+    
     }
   }, 2000);
 })
