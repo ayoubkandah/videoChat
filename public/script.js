@@ -60,6 +60,7 @@ navigator.mediaDevices.getUserMedia({
 
   })
   socket.on('user-connected', (userId, room) => {
+    
     console.log(video2.srcObject)
     // console.log(video1.srcObject)
   
@@ -83,6 +84,32 @@ navigator.mediaDevices.getUserMedia({
 
   }
 })
+socket.on('user-connected2', (userId, room) => {
+    player=2
+  console.log(video2.srcObject)
+  // console.log(video1.srcObject)
+
+  connectToNewUser(userId, stream)
+
+  roomP = room
+  console.log("---")
+  setTimeout(function aa() {
+    console.log("done 6sec")
+    if (video2.srcObject == null) {
+      // connectToNewUser(userId, stream)
+      socket.emit("startV", ROOM_ID, userId)
+    } 
+
+      socket.emit("startG", roomP)
+    
+  }, 6000);
+})
+if(video2.srcObject !== null){
+  socket.emit("startG", roomP)
+
+}
+})
+
 socket.on("startGaming",roomG=>{
   console.log(player);
 
