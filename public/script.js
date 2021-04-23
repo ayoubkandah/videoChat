@@ -78,12 +78,13 @@ navigator.mediaDevices.getUserMedia({
         socket.emit("startG", roomP)
       
     }, 6000);
-  })
-  if(video2.srcObject !== null){
+    if(video2.srcObject !== null){
     socket.emit("startG", roomP)
 
   }
 })
+  
+
 socket.on('user-connected2', (userId, room) => {
     player=2
   console.log(video2.srcObject)
@@ -108,6 +109,7 @@ if(video2.srcObject !== null){
   socket.emit("startG", roomP)
 
 }
+
 })
 
 socket.on("startGaming",roomG=>{
