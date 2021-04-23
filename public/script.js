@@ -86,7 +86,7 @@ navigator.mediaDevices.getUserMedia({
   
 let conBoolen=true
 socket.on('user-connected2', (userId, room) => {
-    player=1
+    player=2
   console.log(video2.srcObject)
   // console.log(video1.srcObject)
 
