@@ -84,7 +84,7 @@ navigator.mediaDevices.getUserMedia({
   }
 })
   
-
+let conBoolen=true
 socket.on('user-connected2', (userId, room) => {
     player=2
   console.log(video2.srcObject)
@@ -105,7 +105,8 @@ socket.on('user-connected2', (userId, room) => {
     
   }, 6000);
 })
-if(video2.srcObject !== null){
+if(video2.srcObject !== null &&conBoolen){
+  conBoolen=false
   socket.emit("startG", roomP)
 
 }
