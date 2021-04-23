@@ -134,6 +134,7 @@ $("hint").text("Dont laughing")
 })
 
 socket.on("yourTurn",()=>{
+  $("#video2").prop('muted', true)
   GameStart ()
 
 })
@@ -153,6 +154,7 @@ function GameStart () {
     if(timeleft<=0){
         clearInterval(downloadTimer);
         $("#turn").text("Opponent turn")
+        $("#video2").prop('muted', false)
 socket.emit("p2Turn",roomP)
 
 // break;
