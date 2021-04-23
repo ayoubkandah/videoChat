@@ -87,10 +87,10 @@ io.on('connection', socket => {
       socket.to(room).emit('user-disconnected', userId)
     })
   })
-  let players=2
+
   socket.on("startV", (roomId, userId) => {
     console.log(userId)
-    socket.emit('user-connected', userId,players)
+    socket.emit('user-connected2', userId)
   })
   socket.on("startG", (roomG) => {
     console.log("Start Game")

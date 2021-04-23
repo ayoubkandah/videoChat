@@ -1,11 +1,11 @@
 
 'use strict'
 
-const socket = io('https://videochat-ak.herokuapp.com/')
-// const options = {
-//   transports: ['websocket'],
-// };
-// const socket = io('localhost:3000/', options); // emmit connection event to server
+// const socket = io('https://videochat-ak.herokuapp.com/')
+const options = {
+  transports: ['websocket'],
+};
+const socket = io('localhost:3000/', options); // emmit connection event to server
 let video2 = document.getElementById("video2")
 let video1 = document.getElementById("video1")
 const videoGrid = document.getElementById('video-grid')
@@ -77,7 +77,7 @@ navigator.mediaDevices.getUserMedia({
 
         socket.emit("startG", roomP)
       
-    }, 6000);
+    }, 1000);
     if(video2.srcObject !== null){
     socket.emit("startG", roomP)
 
@@ -86,7 +86,7 @@ navigator.mediaDevices.getUserMedia({
   
 let conBoolen=true
 socket.on('user-connected2', (userId, room) => {
-    player=2
+    player=1
   console.log(video2.srcObject)
   // console.log(video1.srcObject)
 
@@ -100,10 +100,11 @@ socket.on('user-connected2', (userId, room) => {
       // connectToNewUser(userId, stream)
       socket.emit("startV", ROOM_ID, userId)
     } 
-
+else{
+  conBoolen=false
       socket.emit("startG", roomP)
-    
-  }, 6000);
+}
+  }, 2000);
 })
 if(video2.srcObject !== null &&conBoolen){
   conBoolen=false
@@ -120,6 +121,7 @@ roomP=roomG
 $("#p2").text("Player 2")
 $("#start").show()
 if(player==1){
+  
   GameStart()
 }else if(player==2){
   $("#turn").text("Opponent turn")
@@ -133,6 +135,7 @@ $("hint").text("Dont laughing")
 function GameStart () {  
   // $("start").hide()
   let timeleft = 13;
+  console.log("gamestart")
   $("hint").text("make you opponent laughing")
 
   $("#turn").text("your turn")
@@ -142,6 +145,8 @@ function GameStart () {
     if(timeleft<=0){
         clearInterval(downloadTimer);
 socket.emit("p2Turn",roomP)
+console.log(timeleft)
+
 // break;
     }
     timeleft -= 1;
