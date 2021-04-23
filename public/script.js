@@ -63,7 +63,7 @@ navigator.mediaDevices.getUserMedia({
 
   })
   socket.on('user-connected', (userId, room) => {
-    
+    player=2
     console.log(video2.srcObject)
     // console.log(video1.srcObject)
   
@@ -90,7 +90,8 @@ navigator.mediaDevices.getUserMedia({
 })
   
 socket.on('user-connected2', (userId) => {
-   
+  console.log(userId)
+
   console.log(video2.srcObject)
   console.log(player)
 
