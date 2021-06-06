@@ -1,10 +1,10 @@
 import Button from "@material-ui/core/Button"
-import IconButton from "@material-ui/core/IconButton"
-import TextField from "@material-ui/core/TextField"
-import AssignmentIcon from "@material-ui/icons/Assignment"
-import PhoneIcon from "@material-ui/icons/Phone"
+// import IconButton from "@material-ui/core/IconButton"
+// import TextField from "@material-ui/core/TextField"
+// import AssignmentIcon from "@material-ui/icons/Assignment"
+// import PhoneIcon from "@material-ui/icons/Phone"
 import React, { useEffect, useRef, useState } from "react"
-import { CopyToClipboard } from "react-copy-to-clipboard"
+// import { CopyToClipboard } from "react-copy-to-clipboard"
 import Peer from "simple-peer"
 import io from "socket.io-client"
 import "./App.css"
@@ -18,10 +18,8 @@ function App() {
     const [ caller, setCaller ] = useState("")
     const [ callerSignal, setCallerSignal ] = useState()
     const [ callAccepted, setCallAccepted ] = useState(false)
-    const [ idToCall, setIdToCall ] = useState("")
     const [ callEnded, setCallEnded] = useState(false)
     const [ name, setName ] = useState("")
-    const [answe,setAnswe]=useState(true)
     const [trigger,setTrigger]=useState()
     const myVideo = useRef()
     const userVideo = useRef()
@@ -50,13 +48,14 @@ function App() {
 
         })
         socket.on("autoCall",(room,id)=>{
-            setTrigger(id)
-            console.log("auto",id)
-            // console.log
-            // setMe(id)
-            console.log(me,"eeeee")
+            setTimeout(function aa() {
+                setTrigger(id)
+                console.log("auto", id)
+                // console.log
+                // setMe(id)
+                console.log(me, "eeeee")
 
-
+            },3000)
         })
     }, [])
 
@@ -121,6 +120,17 @@ function App() {
             connectionRef.current = peer
 
     }
+    function hitAnswer(){
+            setTimeout(function aa() {
+                if(c<=0) {
+
+                document.getElementById("ans").click()
+                console.log("done 10 serc")
+                c++
+                }
+            }, 3000)
+
+    }
 
     const leaveCall = () => {
         setCallEnded(true)
@@ -131,9 +141,8 @@ function App() {
       <div>
           {trigger ?  callUser(trigger):null
           }
-          {console.log(caller,"calllllerrr")}
-          {console.log(callerSignal,"calllerr signnaaal")}
-            <h1 style={{ textAlign: "center", color: '#fff' }}>Zoomish</h1>
+          {/*{console.log(caller,"calllllerrr")}*/}
+          {/*{console.log(callerSignal,"calllerr signnaaal")}*/}
             <div className="container">
                 <div className="video-container">
                     <div className="video">
@@ -145,63 +154,19 @@ function App() {
                             null}
                     </div>
                 </div>
-                <div className="myId">
-                    <TextField
-                        id="filled-basic"
-                        label="Name"
-                        variant="filled"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        style={{ marginBottom: "20px" }}
-                    />
-                    <CopyToClipboard  text={me} style={{ marginBottom: "2rem" }}>
-                        <Button hidden variant="contained" color="primary" startIcon={<AssignmentIcon fontSize="large" />}>
-                            Copy ID
-                        </Button>
-                    </CopyToClipboard>
 
-                    <TextField
-                        id="filled-basic"
-                        label="ID to call"
-                        variant="filled"
-                        value={idToCall}
-                        onChange={(e) => setIdToCall(e.target.value)}
-                    />
-                    <div className="call-button">
-                        {callAccepted && !callEnded ? (
-                            <Button variant="contained" hidden color="secondary" onClick={leaveCall}>
-                                End Call
-                            </Button>
-                        ) : (
-                            <IconButton color="primary" aria-label="call" hidden onClick={() => callUser(idToCall)}>
-                                <PhoneIcon fontSize="large" />
-                            </IconButton>
-                        )}
-                        {idToCall}
-                    </div>
                 </div>
                 <div>
                     {receivingCall  ?(
                         <div className="caller">
-                            console.log(receivingCall)
 
-                            <h1 >{name} is calling...</h1>
-                            <Button id="ans" hidden variant="contained" color="primary" onClick={answerCall}>
-                                Answer
+                            <Button id="ans" style={{display:"none"}} variant="contained" color="primary" onClick={answerCall}>
                             </Button>
-                            {
-                                setTimeout(function aa() {
-if(c<=0){
-                                    document.getElementById("ans").click()
-console.log("done 10 serc")
-c++
-}
-                            },6000)}
-                            }
+                            {hitAnswer()}
                         </div>
                     ) : null}
                 </div>
-            </div>
+
       </div>
     )
 }

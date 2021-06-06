@@ -2,24 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="86952481-981f-41f9-bca0-3c786b4dc049" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/models/face_expression_model-shard1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/models/face_expression_model-weights_manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/models/face_landmark_68_model-shard1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/models/face_landmark_68_model-weights_manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/models/face_landmark_68_tiny_model-shard1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/models/face_landmark_68_tiny_model-weights_manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/models/face_recognition_model-shard1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/models/face_recognition_model-shard2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/models/face_recognition_model-weights_manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/models/tiny_face_detector_model-shard1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/models/tiny_face_detector_model-weights_manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/script.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/room.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +38,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1622887470176</updated>
-      <workItem from="1622887523098" duration="28878000" />
+      <workItem from="1622887523098" duration="31253000" />
     </task>
     <servers />
   </component>
