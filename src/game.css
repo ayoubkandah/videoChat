@@ -1,0 +1,17 @@
+#video1{grid-area:v1;}
+#video2{grid-area:v2;}
+#title{grid-area:t1;}
+
+
+.video-container{
+    display:grid;
+    align-items: end;
+    justify-items: center;
+    grid-template-areas:
+     "v1 v1 t1"
+    "v1 v1 v2";
+    /*"v1 v1 v2";*/
+}
+
+
+

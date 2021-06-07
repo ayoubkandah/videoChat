@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from "react"
 import * as faceapi from "face-api.js"
 import Peer from "simple-peer"
 import io from "socket.io-client"
+import game from "./game.css"
 import "./App.css"
 let c=0;
 let bool=true;
@@ -44,34 +45,34 @@ function App() {
                 faceapi.nets.faceExpressionNet.loadFromUri('/models');
             const video = document.getElementById('video1');
 
-            video.addEventListener('play', () => {
-                faceapi.createCanvasFromMedia(video);
-                const displaySize = { width: video.width, height: video.height };
-                setInterval(async () => {
-                    const detections = await faceapi
-                        .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-                        .withFaceLandmarks()
-                        .withFaceExpressions();
-                    if (detections.length > 0) {
-                        if (detections[0].expressions.happy > 0.70 && faceTrigger) {
-                            oppPoints++;
-
-                            if (oppPoints >= 3) {
-                                ////////////////Player lose
-                                socket.emit('winner');
-                                window.location.href = 'https://www.google.com';
-                            } else {
-                                //////////////////// player lose 1 point
-                                faceTrigger = false;
-                                console.log('happy');
-                                socket.emit('p2TurnL', oppPoints, yourPoints);
-                            }
-
-                        }
-                    }
-
-                }, 100);
-            });
+            // video.addEventListener('play', () => {
+            //     faceapi.createCanvasFromMedia(video);
+            //     const displaySize = { width: video.width, height: video.height };
+            //     setInterval(async () => {
+            //         const detections = await faceapi
+            //             .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+            //             .withFaceLandmarks()
+            //             .withFaceExpressions();
+            //         if (detections.length > 0) {
+            //             if (detections[0].expressions.happy > 0.70 && faceTrigger) {
+            //                 oppPoints++;
+            //
+            //                 if (oppPoints >= 3) {
+            //                     ////////////////Player lose
+            //                     socket.emit('winner');
+            //                     window.location.href = 'https://www.google.com';
+            //                 } else {
+            //                     //////////////////// player lose 1 point
+            //                     faceTrigger = false;
+            //                     console.log('happy');
+            //                     socket.emit('p2TurnL', oppPoints, yourPoints);
+            //                 }
+            //
+            //             }
+            //         }
+            //
+            //     }, 100);
+            // });
 
         })
 socket.on('user-disconnected',()=>{
@@ -109,7 +110,10 @@ socket.on('user-disconnected',()=>{
             console.log("turn shift",yourPointss,oppPointss)
             yourPoints = yourPointss;
             oppPoints = oppPointss;
-            GameStart();
+
+            document.getElementById("gameStatus").textContent="My Turn"
+
+                GameStart();
 
         })
         socket.on("gameS",()=>{
@@ -118,10 +122,22 @@ socket.on('user-disconnected',()=>{
 
             document.getElementById("gameStatus").textContent="Start"
             if(player===1){
-                console.log("number of hit")
-                GameStart()
+                document.getElementById("gameStatusEffect").textContent="ya faten yallah "
+                setTimeout(function aa() {
+                    document.getElementById("gameStatusEffect").remove()
+
+                    console.log("number of hit")
+                    GameStart()
+                },3000)
             }else{
-                document.getElementById("gameStatus").textContent="Player 1 Turn"
+                document.getElementById("gameStatusEffect").textContent="ya faten yallah "
+                setTimeout(function aa() {
+
+                    console.log("number of hit")
+                    document.getElementById("gameStatusEffect").remove()
+
+                    document.getElementById("gameStatus").textContent="Player 1 Turn"
+                },3000)
             }
             smalT=false
             }
@@ -242,6 +258,8 @@ console.log(yourPoints,oppPoints)
                 clearInterval(downloadTimer);
                 faceTrigger = true;
                 console.log("before turn shift")
+                document.getElementById("gameStatus").textContent="Opp Turn"
+
                 socket.emit('p2Turn', oppPoints, yourPoints);
 
                 // break;
@@ -265,13 +283,17 @@ console.log(yourPoints,oppPoints)
             <div className="container">
                 <div className="video-container">
                     <div className="video">
-                        {stream &&  <video id={"video1"} playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
-                    </div>
-                    <div className="video">
                         {callAccepted && !callEnded ?
-                            <video playsInline ref={userVideo} autoPlay style={{ width: "300px"}} />:
+                            <video playsInline id="video2" ref= {userVideo} muted autoPlay style={{ width: "500px"}} />:
                             null}
                     </div>
+
+                    <div className="video">
+                        {stream &&  <video id="video1" playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
+                    </div>
+
+                    <div id="title"></div>
+
                 </div>
 
                 </div>
@@ -283,6 +305,7 @@ console.log(yourPoints,oppPoints)
          </p>
           <p id="timer">Timer</p>
                 <div>
+                    <p id="gameStatusEffect"></p>
                     {receivingCall  ?(
                         <div className="caller">
 
