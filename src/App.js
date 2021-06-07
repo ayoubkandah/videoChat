@@ -5,11 +5,18 @@ import Button from "@material-ui/core/Button"
 // import PhoneIcon from "@material-ui/icons/Phone"
 import React, { useEffect, useRef, useState } from "react"
 // import { CopyToClipboard } from "react-copy-to-clipboard"
+import * as faceapi from "face-api.js"
 import Peer from "simple-peer"
 import io from "socket.io-client"
 import "./App.css"
-
 let c=0;
+let bool=true;
+let player = 1;
+let yourPoints = 0;
+let oppPoints = 0;
+let timeleft =0
+let faceTrigger;
+let smalT=true;
 const socket = io.connect('http://localhost:4040')
 function App() {
     const [ me, setMe ] = useState("")
@@ -21,6 +28,7 @@ function App() {
     const [ callEnded, setCallEnded] = useState(false)
     const [ name, setName ] = useState("")
     const [trigger,setTrigger]=useState()
+    const [room,setRoom]=useState()
     const myVideo = useRef()
     const userVideo = useRef()
     const connectionRef= useRef()
@@ -30,9 +38,46 @@ function App() {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
             setStream(stream)
             myVideo.current.srcObject = stream
-        })
+            faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+                faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+                // faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
+                faceapi.nets.faceExpressionNet.loadFromUri('/models');
+            const video = document.getElementById('video1');
 
-        socket.on("me", (id) => {
+            video.addEventListener('play', () => {
+                faceapi.createCanvasFromMedia(video);
+                const displaySize = { width: video.width, height: video.height };
+                setInterval(async () => {
+                    const detections = await faceapi
+                        .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+                        .withFaceLandmarks()
+                        .withFaceExpressions();
+                    if (detections.length > 0) {
+                        if (detections[0].expressions.happy > 0.70 && faceTrigger) {
+                            oppPoints++;
+
+                            if (oppPoints >= 3) {
+                                ////////////////Player lose
+                                socket.emit('winner');
+                                window.location.href = 'https://www.google.com';
+                            } else {
+                                //////////////////// player lose 1 point
+                                faceTrigger = false;
+                                console.log('happy');
+                                socket.emit('p2TurnL', oppPoints, yourPoints);
+                            }
+
+                        }
+                    }
+
+                }, 100);
+            });
+
+        })
+socket.on('user-disconnected',()=>{
+    window.location="www.google.com"
+})
+        socket.on("me", (id,room) => {
             setMe(id)
 
         })
@@ -48,6 +93,7 @@ function App() {
 
         })
         socket.on("autoCall",(room,id)=>{
+             player=2
             setTimeout(function aa() {
                 setTrigger(id)
                 console.log("auto", id)
@@ -56,7 +102,42 @@ function App() {
                 console.log(me, "eeeee")
 
             },3000)
+
+
         })
+        socket.on('yourTurn', (yourPointss, oppPointss) => {
+            console.log("turn shift",yourPointss,oppPointss)
+            yourPoints = yourPointss;
+            oppPoints = oppPointss;
+            GameStart();
+
+        })
+        socket.on("gameS",()=>{
+            if(smalT){
+            console.log("start p", player)
+
+            document.getElementById("gameStatus").textContent="Start"
+            if(player===1){
+                console.log("number of hit")
+                GameStart()
+            }else{
+                document.getElementById("gameStatus").textContent="Player 1 Turn"
+            }
+            smalT=false
+            }
+
+        })
+        socket.on('getPoint', (yourPointss, oppPointss) => {
+
+            yourPoints = yourPointss;
+            oppPoints = oppPointss;
+            timeleft = 1;
+        });
+
+        socket.on('youWin', () => {
+            console.log("you win")
+            window.location.href = 'www.google.com';
+        });
     }, [])
 
     function callUser(id)  {
@@ -137,8 +218,46 @@ function App() {
         connectionRef.current.destroy()
     }
 
+    function gameStart(){
+        if(bool){
+        console.log("auto run g")
+        socket.emit("startG")
+        bool=false
+        }
+    }
+    function GameStart() {
+console.log(yourPoints,oppPoints)
+        faceTrigger = false;
+        timeleft = 13;
+        console.log('gamestart');
+        // $('#hint').text('make you opponent laughing');
+        // $('#turn').text('your turn');
+
+        let downloadTimer = setInterval(function () {
+            // $('#timerN').text(timeleft);
+            document.getElementById("timer").textContent=`Timer ${timeleft}`
+
+            if (timeleft <= 0) {
+                timeleft = 0;
+                clearInterval(downloadTimer);
+                faceTrigger = true;
+                console.log("before turn shift")
+                socket.emit('p2Turn', oppPoints, yourPoints);
+
+                // break;
+            }
+            timeleft -= 1;
+        }, 1000);
+    }
+
     return (
       <div>
+
+          {callAccepted ?
+
+              gameStart()
+
+          :null}
           {trigger ?  callUser(trigger):null
           }
           {/*{console.log(caller,"calllllerrr")}*/}
@@ -146,7 +265,7 @@ function App() {
             <div className="container">
                 <div className="video-container">
                     <div className="video">
-                        {stream &&  <video playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
+                        {stream &&  <video id={"video1"} playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
                     </div>
                     <div className="video">
                         {callAccepted && !callEnded ?
@@ -156,6 +275,13 @@ function App() {
                 </div>
 
                 </div>
+
+         <p id="gameStatus">
+
+             Waiting
+
+         </p>
+          <p id="timer">Timer</p>
                 <div>
                     {receivingCall  ?(
                         <div className="caller">
