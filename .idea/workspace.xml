@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="86952481-981f-41f9-bca0-3c786b4dc049" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/assets/menion (1).png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/menion.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.css" afterDir="false" />
@@ -47,8 +49,29 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="\\wsl$\Ubuntu\home\ayoubk\finalProj\videoChat\my-app\src\assets" />
       <recent name="\\wsl$\Ubuntu\home\ayoubk\finalProj\videoChat\my-app\src" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="NimRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="nim.task.build.to.cache" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -63,7 +86,7 @@
       <workItem from="1622984513240" duration="1489000" />
       <workItem from="1622986082654" duration="65000" />
       <workItem from="1622986181070" duration="22531000" />
-      <workItem from="1623118373015" duration="15420000" />
+      <workItem from="1623118373015" duration="22894000" />
     </task>
     <servers />
   </component>

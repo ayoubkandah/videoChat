@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button"
 // import AssignmentIcon from "@material-ui/icons/Assignment"
 // import PhoneIcon from "@material-ui/icons/Phone"
 import React, { useEffect, useRef, useState } from "react"
+import minion from "./assets/menion.png"
 // import { CopyToClipboard } from "react-copy-to-clipboard"
 import * as faceapi from "face-api.js"
 import Peer from "simple-peer"
@@ -51,37 +52,40 @@ function App() {
                 faceapi.nets.faceExpressionNet.loadFromUri('/models');
             const video = document.getElementById('video1');
 
-            video.addEventListener('play', () => {
-                faceapi.createCanvasFromMedia(video);
-                const displaySize = { width: video.width, height: video.height };
-                setInterval(async () => {
-                    const detections = await faceapi
-                        .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-                        .withFaceLandmarks()
-                        .withFaceExpressions();
-                    if (detections.length > 0) {
-                        if (detections[0].expressions.happy > 0.70 && faceTrigger) {
-                            oppPoints++;
-
-                            if (oppPoints >= 3) {
-                                ////////////////Player lose
-                                socket.emit('winner');
-                                window.location.href = 'https://www.google.com';
-                            } else {
-                                //////////////////// player lose 1 point
-                                document.getElementById(`point-${oppPoints}`).classList.add("pointOp")
-                                document.getElementById("timer").textContent=""
-                                document.getElementById("gameStatus").textContent="Fail!"
-                                faceTrigger = false;
-                                console.log('happy');
-                                socket.emit('p2TurnL', oppPoints, yourPoints);
-                            }
-
-                        }
-                    }
-
-                }, 100);
-            });
+            // video.addEventListener('play', () => {
+            //     faceapi.createCanvasFromMedia(video);
+            //     const displaySize = { width: video.width, height: video.height };
+            //     setInterval(async () => {
+            //         const detections = await faceapi
+            //             .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+            //             .withFaceLandmarks()
+            //             .withFaceExpressions();
+            //         if (detections.length > 0) {
+            //             if (detections[0].expressions.happy > 0.70 && faceTrigger) {
+            //                 oppPoints++;
+            //
+            //                 if (oppPoints >= 3) {
+            //                     ////////////////Player lose
+            //                     socket.emit('winner');
+            //                     window.location.href = 'https://www.google.com';
+            //                 } else {
+            //                     //////////////////// player lose 1 point
+            //                     document.getElementById(`point-${oppPoints}`).classList.add("pointOp")
+            //                     document.getElementById("timer").textContent=""
+            //                     document.getElementById("gameStatus").classList.add("loseP")
+            //
+            //                     document.getElementById("gameStatus").textContent="Fail!"
+            //                     faceTrigger = false;
+            //                     console.log('happy');
+            //                     fakeTimer=0
+            //                     socket.emit('p2TurnL', oppPoints, yourPoints);
+            //                 }
+            //
+            //             }
+            //         }
+            //
+            //     }, 100);
+            // });
 
         })
         socket.on('user-disconnected', () => {
@@ -298,8 +302,13 @@ winPoint=true
 
         let downloadTimer = setInterval(function () {
             // $('#timerN').text(timeleft);
+
             if(!winPoint){
                 document.getElementById("timer").textContent = timeleft
+
+            }
+            if(!winPoint && timeleft<10){
+                document.getElementById("timer").textContent = `0${timeleft}`
 
             }
 
@@ -334,8 +343,11 @@ run()
             document.getElementById("gameStatus").textContent = "Opp_Turn"
             document.getElementById("gameStatus").classList.add("opp")
             let downloadTimer = setInterval(function () {
+                if(fakeTimer>=10){
                 document.getElementById("timer").textContent = fakeTimer
-
+                }else{
+                document.getElementById("timer").textContent = `0${fakeTimer}`
+                }
                 if (fakeTimer <= 0) {
                     fakeTimer = 0;
                     clearInterval(downloadTimer);
@@ -363,9 +375,9 @@ run()
             {/* <div className="container"> */}
             <div className="pointsimg">
 
-            <img id="point-1" src={badge}/>
-            <img id="point-2" src={badge}/>
             <img id="point-3" src={badge}/>
+            <img id="point-2" src={badge}/>
+            <img id="point-1" src={badge}/>
             </div>
             <div className="video-container">
                <div id="titles">

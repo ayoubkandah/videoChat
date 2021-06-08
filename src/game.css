@@ -175,6 +175,10 @@ body{
     top: -464px;
     font-size: 37px;
     color: #29dd01;
+    animation: animate3 1.2s linear infinite;
+    animation-timing-function: step-end;
+
+
 }
 .loseP{
     font-family: 'digital-clock-font';
@@ -183,7 +187,97 @@ body{
     top: -470px;
     font-size: 40px;
     color: #e00d0d;
+    animation-timing-function: step-end;
+
 }
 .pointOp{
     opacity: 0.3;
+}
+#empty{
+    background-image: url("./assets/menion (1).png");
+}
+/*//-- effect*/
+.waiting {
+    color: #F5B201;
+    text-transform: uppercase;
+    /*-webkit-box-reflect:below 1px linear-gradient(transparent,black);*/
+    outline: none;
+    animation: animate 1.2s linear infinite;
+    font-family:'digital-clock-font';
+    animation-timing-function: step-end;
+
+}
+
+@keyframes animate3{
+    0%,70%{
+        color: #29dd01;
+        text-shadow: none;
+    }
+    70.1%,100%{
+        opacity: 0;
+        text-shadow: 0 0 10px #FFD45D,
+        0 0 20px #FFD45D,
+        0 0 40px #FFD45D,
+        0 0 80px #FFD45D,
+        0 0 160px #FFD45D,
+    }
+}
+@keyframes animate{
+    0%,70%{
+        color: #c6c6c6;
+        text-shadow: none;
+    }
+    70.1%,100%{
+opacity: 0;
+        text-shadow: 0 0 10px #FFD45D,
+        0 0 20px #FFD45D,
+        0 0 40px #FFD45D,
+        0 0 80px #FFD45D,
+        0 0 160px #FFD45D,
+    }
+}
+.loseP {
+    color: #F5B201;
+    text-transform: uppercase;
+    /*-webkit-box-reflect:below 1px linear-gradient(transparent,black);*/
+    outline: none;
+    animation: animate1 1.2s linear infinite;
+    font-family:'digital-clock-font';
+    animation-timing-function: step-end;
+
+}
+@keyframes animate1{
+    0%,70%{
+        color: #e00d0d;
+
+        text-shadow: none;
+    }
+    70.1%,100%{
+        opacity: 0;
+        text-shadow: 0 0 10px #FFD45D,
+        0 0 20px #FFD45D,
+        0 0 40px #FFD45D,
+        0 0 80px #FFD45D,
+        0 0 160px #FFD45D,
+    }
+}
+
+.timerPlayer {
+    color: #F5B201;
+    text-transform: uppercase;
+    /*-webkit-box-reflect:below 1px linear-gradient(transparent,black);*/
+    outline: none;
+    animation: animate2 1s linear infinite;
+    font-family:'digital-clock-font';
+    animation-timing-function: step-end;
+}
+@keyframes animate2{
+    0%,70%{
+        color: #e00d0d;
+
+    }
+    70.1%,100%{
+        opacity: 0;
+
+    }
 }
