@@ -1,3 +1,15 @@
+@font-face{
+    font-family:'digital-clock-font';
+    src: local('Digital Numbers Regular'), url('DigitalNumbers-Regular.woff') format('woff');
+}
+
+/**{*/
+/*    transition: 0.7s ease-in-out;*/
+/*}*/
+
+
+
+
 body{
     height:100%;
     background-image: url("./assets/back.gif");
@@ -15,7 +27,7 @@ body{
     align-content: center;
     grid-column-gap: 35px;
     grid-row-gap: 28px;
- 
+
 }
 .videoleft{
     grid-column: 1;
@@ -25,20 +37,34 @@ body{
     margin-top: 15px;
 }
 #titles{
+
     margin-top: 20px;
     grid-column: 2;
     grid-row: 1;
-  
+
+}
+#backG{
+    position: absolute;
+    background-color: #121316;
+    width: 293px;
+    height: 143px;
+    left: 789px;
+    top: 160px;
+    z-index: -5;
 }
 .videoright{
     margin-top: 20px;
     grid-column: 2;
     grid-row: 2/3;
-  
+
     width:300px;
     height:225px;
 }
-
+#video1{
+    margin-left: 8px;
+    margin-top: -3px;
+    width: 300px;
+}
 #mainscreen{
     position: absolute;
     left: 17.7%;
@@ -69,6 +95,75 @@ body{
     display: inline-block;
     width:100px;
 }
+.waiting{
+    font-family: 'digital-clock-font';
+    position: absolute;
+    left: 838px;
+    top: -484px;
+    font-size: 37px;
+    color: #29dd01;
+}
+.timing{
+    font-family: 'digital-clock-font';
+    color: #e00d0d;
+    position: absolute;
+    left: 885px;
+    top: -406px;
+    font-size: 25px;
 
+}
 
+#gameSession{
+    position: absolute;
+}
+.start{
+    font-family: 'digital-clock-font';
+    position: absolute;
+    left: 863px;
+    top: -484px;
+    font-size: 37px;
+    color: #29dd01;
+}
+.next{
+    font-family: 'digital-clock-font';
+    position: absolute;
+    left: 876px;
+    top: -494px;
+    font-size: 37px;
+    color: #c6c131;
+    line-height: 57px;
 
+}
+.your{
+    font-family: 'digital-clock-font';
+    position: absolute;
+    left: 874px;
+    top: -484px;
+    font-size: 37px;
+    color: #29dd01;
+    line-height: 55px;
+}
+.yourA{
+    font-family: 'digital-clock-font';
+    position: absolute;
+    left: 850px;
+    top: -475px;
+    font-size: 25px;
+    color: #c6c131;
+}
+.opp{
+    font-family: 'digital-clock-font';
+    position: absolute;
+    left: 852px;
+    top: -477px;
+    font-size: 27px;
+    color: #c6c131;
+}
+.timerPlayer{
+    font-family: 'digital-clock-font';
+    color: #e00d0d;
+    position: absolute;
+    left: 914px;
+    top: -421px;
+    font-size: 30px;
+}

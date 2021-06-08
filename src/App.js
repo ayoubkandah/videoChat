@@ -22,6 +22,7 @@ let oppPoints = 0;
 let timeleft = 0
 let faceTrigger;
 let smalT = true;
+let fakeTimer=0;
 const socket = io.connect('https://api-server-ayoub.herokuapp.com/')
 function App() {
     const [me, setMe] = useState("")
@@ -80,7 +81,7 @@ function App() {
 
         })
         socket.on('user-disconnected', () => {
-            window.location = "www.google.com"
+            window.location.href = "www.google.com"
         })
         socket.on("me", (id, room) => {
             setMe(id)
@@ -106,7 +107,7 @@ function App() {
                 // setMe(id)
                 console.log(me, "eeeee")
 
-            }, 3000)
+            }, 2000)
 
 
         })
@@ -114,33 +115,62 @@ function App() {
             console.log("turn shift", yourPointss, oppPointss)
             yourPoints = yourPointss;
             oppPoints = oppPointss;
+            document.getElementById('gameStatus').removeAttribute('class')
+            document.getElementById("gameStatus").textContent = "Next Turn"
+            document.getElementById("gameStatus").classList.add("next")
+            setTimeout(function aa() {
+                document.getElementById('gameStatus').removeAttribute('class')
+                document.getElementById('timer').removeAttribute('class')
+                document.getElementById("gameStatus").textContent = "Your_Turn"
+                document.getElementById("timer").classList.add("timerPlayer")
 
-            document.getElementById("gameStatus").textContent = "My Turn"
+                document.getElementById("gameStatus").classList.add("yourA")
 
-            GameStart();
+                GameStart()
+            }, 3000)
 
         })
         socket.on("gameS", () => {
             if (smalT) {
                 console.log("start p", player)
 
-                document.getElementById("gameStatus").textContent = "Start"
-                if (player === 1) {
-                    document.getElementById("gameStatusEffect").textContent = "ya faten yallah "
-                    setTimeout(function aa() {
-                        document.getElementById("gameStatusEffect").remove()
+                document.getElementById('gameStatus').removeAttribute('class')
 
-                        console.log("number of hit")
+                document.getElementById("gameStatus").classList.add("start")
+                document.getElementById("gameStatus").textContent = "Start"
+
+                if (player === 1) {
+                    setTimeout(function aa() {
+                        document.getElementById("timer").textContent = ""
+
+                        document.getElementById('gameStatus').removeAttribute('class')
+                        document.getElementById('timer').removeAttribute('class')
+                        document.getElementById("gameStatus").textContent = "Your_Turn"
+                        document.getElementById("timer").classList.add("timerPlayer")
+
+                        document.getElementById("gameStatus").classList.add("yourA")
+
+
                         GameStart()
                     }, 3000)
                 } else {
-                    document.getElementById("gameStatusEffect").textContent = "ya faten yallah "
+                    document.getElementById('gameStatus').removeAttribute('class')
+
+                    document.getElementById("gameStatus").classList.add("start")
+                    document.getElementById("gameStatus").textContent = "Start"
+                    timing()
                     setTimeout(function aa() {
+                        document.getElementById('timer').removeAttribute('class')
+
+                        document.getElementById("timer").classList.add("timerPlayer")
+                        document.getElementById("timer").textContent = ""
 
                         console.log("number of hit")
-                        document.getElementById("gameStatusEffect").remove()
+                        document.getElementById('gameStatus').removeAttribute('class')
+                        document.getElementById("gameStatus").classList.add("opp")
 
-                        document.getElementById("gameStatus").textContent = "Player 1 Turn"
+                        document.getElementById("gameStatus").textContent = "Opp_Turn"
+
                     }, 3000)
                 }
                 smalT = false
@@ -248,22 +278,25 @@ function App() {
     function GameStart() {
         console.log(yourPoints, oppPoints)
         faceTrigger = false;
-        timeleft = 13;
+        timeleft = 20;
         console.log('gamestart');
         // $('#hint').text('make you opponent laughing');
         // $('#turn').text('your turn');
 
         let downloadTimer = setInterval(function () {
             // $('#timerN').text(timeleft);
-            document.getElementById("timer").textContent = `Timer ${timeleft}`
+            document.getElementById("timer").textContent = timeleft
 
             if (timeleft <= 0) {
                 timeleft = 0;
                 clearInterval(downloadTimer);
                 faceTrigger = true;
                 console.log("before turn shift")
-                document.getElementById("gameStatus").textContent = "Opp Turn"
-
+                document.getElementById('gameStatus').removeAttribute('class')
+                document.getElementById("gameStatus").textContent = "Next Turn"
+                document.getElementById("gameStatus").classList.add("next")
+                document.getElementById("timer").textContent=""
+                timing()
                 socket.emit('p2Turn', oppPoints, yourPoints);
 
                 // break;
@@ -271,7 +304,31 @@ function App() {
             timeleft -= 1;
         }, 1000);
     }
+    function timing(){
+        setTimeout(function aa() {
 
+run()
+        },3000)
+        function run(){
+            fakeTimer = 20;
+            document.getElementById('gameStatus').removeAttribute('class')
+            document.getElementById("gameStatus").textContent = "Opp_Turn"
+            document.getElementById("gameStatus").classList.add("opp")
+            let downloadTimer = setInterval(function () {
+                document.getElementById("timer").textContent = fakeTimer
+
+                if (fakeTimer <= 0) {
+                    fakeTimer = 0;
+                    clearInterval(downloadTimer);
+                    document.getElementById("timer").textContent=""
+
+                    // break;
+                }
+                fakeTimer -= 1;
+            }, 1000);
+        }
+
+    }
     return (
         <div>
 
@@ -293,6 +350,7 @@ function App() {
             </div>
             <div className="video-container">
                <div id="titles">
+                   <section id="backG"></section>
                <img id="imgstatus" src={titles} />
                </div>
                         
@@ -313,16 +371,10 @@ function App() {
 
             </div>
 
-            {/* </div> */}
+             {/*</div> */}
 
-            <p id="gameStatus">
-
-                Waiting
-
-         </p>
-            <p id="timer">Timer</p>
             <div>
-                <p id="gameStatusEffect"></p>
+
                 {receivingCall ? (
                     <div className="caller">
 
@@ -332,7 +384,15 @@ function App() {
                     </div>
                 ) : null}
             </div>
+            <div id="gameSession">
+                <p id="gameStatus" className="waiting">
 
+                    Waiting
+                    {/*<span > <br/>timer</span>*/}
+
+                </p>
+                <h2 id="timer" className="timing">Timer</h2>
+            </div>
         </div>
     )
 }
