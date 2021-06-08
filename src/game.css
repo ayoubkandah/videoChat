@@ -167,3 +167,23 @@ body{
     top: -421px;
     font-size: 30px;
 }
+.winP{
+
+    font-family: 'digital-clock-font';
+    position: absolute;
+    left: 825px;
+    top: -464px;
+    font-size: 37px;
+    color: #29dd01;
+}
+.loseP{
+    font-family: 'digital-clock-font';
+    position: absolute;
+    left: 861px;
+    top: -470px;
+    font-size: 40px;
+    color: #e00d0d;
+}
+.pointOp{
+    opacity: 0.3;
+}

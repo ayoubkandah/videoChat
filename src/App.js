@@ -23,6 +23,7 @@ let timeleft = 0
 let faceTrigger;
 let smalT = true;
 let fakeTimer=0;
+let winPoint=false;
 const socket = io.connect('https://api-server-ayoub.herokuapp.com/')
 function App() {
     const [me, setMe] = useState("")
@@ -50,38 +51,41 @@ function App() {
                 faceapi.nets.faceExpressionNet.loadFromUri('/models');
             const video = document.getElementById('video1');
 
-            // video.addEventListener('play', () => {
-            //     faceapi.createCanvasFromMedia(video);
-            //     const displaySize = { width: video.width, height: video.height };
-            //     setInterval(async () => {
-            //         const detections = await faceapi
-            //             .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
-            //             .withFaceLandmarks()
-            //             .withFaceExpressions();
-            //         if (detections.length > 0) {
-            //             if (detections[0].expressions.happy > 0.70 && faceTrigger) {
-            //                 oppPoints++;
-            //
-            //                 if (oppPoints >= 3) {
-            //                     ////////////////Player lose
-            //                     socket.emit('winner');
-            //                     window.location.href = 'https://www.google.com';
-            //                 } else {
-            //                     //////////////////// player lose 1 point
-            //                     faceTrigger = false;
-            //                     console.log('happy');
-            //                     socket.emit('p2TurnL', oppPoints, yourPoints);
-            //                 }
-            //
-            //             }
-            //         }
-            //
-            //     }, 100);
-            // });
+            video.addEventListener('play', () => {
+                faceapi.createCanvasFromMedia(video);
+                const displaySize = { width: video.width, height: video.height };
+                setInterval(async () => {
+                    const detections = await faceapi
+                        .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+                        .withFaceLandmarks()
+                        .withFaceExpressions();
+                    if (detections.length > 0) {
+                        if (detections[0].expressions.happy > 0.70 && faceTrigger) {
+                            oppPoints++;
+
+                            if (oppPoints >= 3) {
+                                ////////////////Player lose
+                                socket.emit('winner');
+                                window.location.href = 'https://www.google.com';
+                            } else {
+                                //////////////////// player lose 1 point
+                                document.getElementById(`point-${oppPoints}`).classList.add("pointOp")
+                                document.getElementById("timer").textContent=""
+                                document.getElementById("gameStatus").textContent="Fail!"
+                                faceTrigger = false;
+                                console.log('happy');
+                                socket.emit('p2TurnL', oppPoints, yourPoints);
+                            }
+
+                        }
+                    }
+
+                }, 100);
+            });
 
         })
         socket.on('user-disconnected', () => {
-            window.location.href = "www.google.com"
+            window.location.href = 'https://www.google.com';
         })
         socket.on("me", (id, room) => {
             setMe(id)
@@ -119,13 +123,10 @@ function App() {
             document.getElementById("gameStatus").textContent = "Next Turn"
             document.getElementById("gameStatus").classList.add("next")
             setTimeout(function aa() {
-                document.getElementById('gameStatus').removeAttribute('class')
                 document.getElementById('timer').removeAttribute('class')
                 document.getElementById("gameStatus").textContent = "Your_Turn"
                 document.getElementById("timer").classList.add("timerPlayer")
-
                 document.getElementById("gameStatus").classList.add("yourA")
-
                 GameStart()
             }, 3000)
 
@@ -160,6 +161,7 @@ function App() {
                     document.getElementById("gameStatus").textContent = "Start"
                     timing()
                     setTimeout(function aa() {
+                        faceTrigger=true
                         document.getElementById('timer').removeAttribute('class')
 
                         document.getElementById("timer").classList.add("timerPlayer")
@@ -181,7 +183,18 @@ function App() {
 
             yourPoints = yourPointss;
             oppPoints = oppPointss;
-            timeleft = 1;
+winPoint=true
+            document.getElementById("timer").textContent=""
+            document.getElementById('gameStatus').removeAttribute('class')
+            document.getElementById('gameStatus').classList.add("winP")
+            document.getElementById('gameStatus').textContent="awesome!"
+            timeleft=10
+
+            setTimeout(function aa() {
+
+                timeleft=0
+
+            },3000)
         });
 
         socket.on('youWin', () => {
@@ -285,9 +298,12 @@ function App() {
 
         let downloadTimer = setInterval(function () {
             // $('#timerN').text(timeleft);
-            document.getElementById("timer").textContent = timeleft
+            if(!winPoint){
+                document.getElementById("timer").textContent = timeleft
 
-            if (timeleft <= 0) {
+            }
+
+            if (timeleft <= 0 ) {
                 timeleft = 0;
                 clearInterval(downloadTimer);
                 faceTrigger = true;
@@ -297,10 +313,13 @@ function App() {
                 document.getElementById("gameStatus").classList.add("next")
                 document.getElementById("timer").textContent=""
                 timing()
+                winPoint=false
+
                 socket.emit('p2Turn', oppPoints, yourPoints);
 
                 // break;
             }
+            
             timeleft -= 1;
         }, 1000);
     }
