@@ -288,8 +288,8 @@ function App() {
             <div className="pointsimg">
 
             <img id="point-1" src={badge}/>
-            <img id="point-1" src={badge}/>
-            <img id="point-1" src={badge}/>
+            <img id="point-2" src={badge}/>
+            <img id="point-3" src={badge}/>
             </div>
             <div className="video-container">
                <div id="titles">

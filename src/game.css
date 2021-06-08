@@ -1,6 +1,8 @@
 body{
     height:100%;
-    background-color: black;
+    background-image: url("./assets/back.gif");
+    background-repeat: no-repeat;
+    background-size:cover;
 }
 
 .video-container{
